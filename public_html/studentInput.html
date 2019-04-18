@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Student Input Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<h1>Enter info about an enrichment experience here.</h1>
+	<form method="post" action="">
+		
+        <label>
+            SSOID
+            <input name="ssoid" type="text" maxlength="10" required>
+        </label><br>
+        <label>Experience Category</label><br>   
+            <label><input name="category" type="radio" value="research" checked>Research</label><br>
+            <label><input name="category" type="radio" value="internship">Internship</label><br>
+            <label><input name="category" type="radio" value="service">Service</label><br>
+            <label><input name="category" type="radio" value="leadership">Leadership</label><br>
+            <label><input name="category" type="radio" value="diversity">Diversity/Global Learning</label><br>
+            <label><input name="category" type="radio" value="learningcomm">Learning Community</label><br>
+            <label><input name="category" type="radio" value="seminar">Seminar</label><br>
+            <label><input name="category" type="radio" value="campus">Campus Culture</label><br>
+            <label><input name="category" type="radio" value="portfolio">Portfolio Work</label><br>
+            <label><input name="category" type="radio" value="collab">Team Project/Collaboration</label><br>
+        <label>
+            Organization
+            <input name="organization" type="text" maxlength="45">
+        </label><br>
+        <label>
+            Description
+            <input name="description" type="text" maxlength="1000" required>
+        </label><br>
+		<label>
+            Date
+            <input name="date" type="date" min="2012-01-01" required>
+        </label><br>
+        <label>
+            Number of Hours
+            <input name="hours" type="number" min="1" required>
+        </label><br>
+        <input type="reset" value="Clear Form">
+        <input type="submit" value="Send for Verification">
+	</form>
+</body>
+</html>
