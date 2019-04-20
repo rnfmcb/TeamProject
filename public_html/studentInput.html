@@ -8,11 +8,15 @@
 </head>
 <body>
 	<h1>Enter info about an enrichment experience here.</h1>
-	<form method="post" action="">
+	<form id="experience_form" method="post" action="">
 		
         <label>
-            SSOID
-            <input name="ssoid" type="text" maxlength="10" required>
+            Faculty SSOID
+            <input name="teacher" type="text" maxlength="10" required>
+        </label><br>
+        <label>
+            Student SSOIDs:<br>
+            <textarea name="students" form="experience_form" cols="60" rows="5"></textarea>
         </label><br>
         <label>Experience Category</label><br>   
             <label><input name="category" type="radio" value="research" checked>Research</label><br>
@@ -30,8 +34,8 @@
             <input name="organization" type="text" maxlength="45">
         </label><br>
         <label>
-            Description
-            <input name="description" type="text" maxlength="1000" required>
+            Description:<br>
+            <textarea name="description" form="experience_form" cols="60" rows="5" maxlength="1000"></textarea>
         </label><br>
 		<label>
             Date
