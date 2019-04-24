@@ -1,0 +1,103 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+class DB_Func
+{
+    private $conn;
+
+    //constructor
+    function __construct()
+    {
+        require_once 'DB_conn.php';
+        $db = new DB_Connect();
+        $this->conn = $db->connect();
+    }
+
+    function __destruct(){
+       // $this->conn->close();
+    }
+
+
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
+
+
+
+    function storeExperience( $category, $date, $hours, $description, $organization, $verified){
+
+        $stmt = $this->conn->prepare("INSERT INTO experience ( CATEGORY, DATE, HOURS,
+        DESCRIPTION, ORGANIZATION, VERIFIED) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssisss",$category, $date,  $hours, $description, $organization, $verified);
+        $result = $stmt->execute();
+        $stmt->close();
+
+        //check for successful store
+        if ($result) {
+            return $this->isSuccessful($category, $date, $hours, $description, $organization, $verified);
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * @param $email
+     * @return #of matches
+     */
+    public function isUserInfoUnique($e )
+    {
+        //check email
+        $stmt = $this->conn->prepare("SELECT EXPID from experience WHERE EXPID = ?");
+        $stmt->bind_param("s", $email);
+
+        $stmt->execute();
+        $stmt->store_result();
+        $existingInfo = $stmt->num_rows();
+
+        $stmt->close();
+        return $existingInfo;
+    }
+
+
+    /**
+     * @param $email
+     * @return mixed
+     */
+    public function isSuccessful($category, $date, $hours, $description, $organization, $verified)
+    {
+         $expID = "";
+
+        global $experience;
+
+        $stmt = $this->conn->prepare("SELECT EXPID FROM experience WHERE ( CATEGORY = ? AND DATE = ? AND HOURS = ?
+                                             AND DESCRIPTION = ? AND ORGANIZATION = ? AND VERIFIED = ?) ");
+        $stmt->bind_param("ssisss",$category, $date,  $hours, $description, $organization, $verified);
+
+        $stmt->execute();
+        $stmt->bind_result($expID );
+
+        $stmt->fetch();
+        //store in array $experience
+        $experience['expID'] = $expID;
+        $experience['category'] = $category;
+        $experience['date'] = $date;
+        $experience['hours'] = $hours;
+        $experience['description'] = $description;
+        $experience['organization'] = $organization;
+        $experience['verified'] = $verified;
+
+        $stmt->close();
+
+        return $experience;
+    }
+
+
+
+
+}
