@@ -14,5 +14,4 @@ class DB_Connect {
         return $this->conn;
     }
 }
-session_start();
 

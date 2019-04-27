@@ -15,9 +15,8 @@ class DB_Func
     }
 
     function __destruct(){
-       // $this->conn->close();
+        // $this->conn->close();
     }
-
 
     function test_input($data) {
         $data = trim($data);
@@ -25,8 +24,6 @@ class DB_Func
         $data = htmlspecialchars($data);
         return $data;
     }
-
-
 
 
     function storeExperience( $category, $date, $hours, $description, $organization, $verified){
@@ -39,12 +36,11 @@ class DB_Func
 
         //check for successful store
         if ($result) {
-            return $this->isSuccessful($category, $date, $hours, $description, $organization, $verified);
+            return $this->isSuccessExp($category, $date, $hours, $description, $organization, $verified);
         } else {
             return false;
         }
     }
-
 
     /**
      * @param $email
@@ -66,14 +62,14 @@ class DB_Func
 
 
     /**
-     * @param $email
+     * @param
      * @return mixed
      */
-    public function isSuccessful($category, $date, $hours, $description, $organization, $verified)
+    public function isSuccessExp($category, $date, $hours, $description, $organization, $verified)
     {
-         $expID = "";
+        $expID = "";
 
-        global $experience;
+        //global $experience;
 
         $stmt = $this->conn->prepare("SELECT EXPID FROM experience WHERE ( CATEGORY = ? AND DATE = ? AND HOURS = ?
                                              AND DESCRIPTION = ? AND ORGANIZATION = ? AND VERIFIED = ?) ");
@@ -96,8 +92,67 @@ class DB_Func
 
         return $experience;
     }
+    /**
+     * @param $email
+     * @return mixed
+     */
+    public function getExperienceInfo( $expID )
+    {
+        //global $experience;
 
+        $stmt = $this->conn->prepare("SELECT * FROM experience WHERE  EXPID = ? ");
+        $stmt->bind_param("i",$expID);
 
+        $stmt->execute();
+        $stmt->bind_result($expID ,$category, $date,  $hours, $description, $organization, $verified);
 
+        $stmt->fetch();
 
-}
+        //store in array $experience
+
+        $experience['expID'] = $expID;
+        $experience['category'] = $category;
+        $experience['date'] = $date;
+        $experience['hours'] = $hours;
+        $experience['description'] = $description;
+        $experience['organization'] = $organization;
+        $experience['verified'] = $verified;
+
+        $stmt->close();
+
+        return $experience;
+    }
+
+    function storeStudentExperience( $expID, $ssoid ){
+
+        $stmt = $this->conn->prepare("INSERT INTO experience_student ( EX, STU ) VALUES ( ?, ? )");
+        $stmt->bind_param("is", $expID, $ssoid);
+        $result = $stmt->execute();
+        $stmt->close();
+        echo "\n this\n";
+
+        //check for successful store
+        if ($result) {
+            return true;//$this->isSuccessStuExp($expID, $ssoid);
+        } else {
+            return false;
+        }
+    }
+    public function isSuccessStuExp($expID, $ssoid)
+    {
+        $stmt = $this->conn->prepare(" SELECT * FROM experience_student WHERE ( EX, STU ) VALUE ( ?, ? )");
+        $stmt->bind_param("is",$expID, $ssoid);
+
+        $stmt->execute();
+        $stmt->bind_result($expID, $ssoid );
+
+        $stmt->fetch();
+        //store in array $experience
+        $experience_student['expID'] = $expID;
+        $experience_student['category'] = $ssoid;
+
+        $stmt->close();
+
+        return $experience_student;
+    }
+

@@ -9,17 +9,8 @@ $response = array("error" => FALSE);
 
 if (isRequiredParametersSet()) {
 
-//
-//
-//    $experience['expID'] = $expID;
-//    $experience['category'] = $category;
-//    $experience['date'] = $date;
-//    $experience['hours'] = $hours;
-//    $experience['description'] = $description;
-//    $experience['organization'] = $organization;
-//    $experience['verified'] = $verified;
 
-
+    $students = $_POST['students'];
     $category = $_POST['category'];
     $date = $_POST['date'];
     $hours = $_POST['hours'];
@@ -39,23 +30,44 @@ if (isRequiredParametersSet()) {
     }
     echo json_encode($response);
 
+    $studentList = parseStudents($students);
+    $num = count($studentList);
+    echo $experience['expID'];
+    foreach ($studentList as $student ){
+        $db->storeStudentExperience( $experience['expID'], $student );
+    }
+
+
 } else {
     $response['message'] = "parameters not set";
     echo json_encode($response);
+
+
+
+
+
+}
+////mock list - need add function
+function parseStudents( $students ){
+    $studentList = array();
+    $val1 = 'dmld54';
+    $val2  = 'tjs27f';
+    $val3 = 'tsp4b';
+    $val4 = 'rnfmcb';
+    array_push($studentList, $val1, $val2, $val3, $val4  );
+    return $studentList;
 }
 
 function isRequiredParametersSet()
 {
-
-
     if (
+        isset( $_POST['students'] ) &&
         isset( $_POST['category'] ) &&
         isset( $_POST['date'] ) &&
         isset( $_POST['hours'] ) &&
         isset( $_POST['description'] ) &&
         isset( $_POST["organization"] )&&
         isset( $_POST['verified'] )
-
     )
     {
         return true;
@@ -63,9 +75,7 @@ function isRequiredParametersSet()
 
     else
         return false;
-
 }
-
 
 
 ?>
