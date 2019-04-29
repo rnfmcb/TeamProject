@@ -11,6 +11,7 @@ if (isRequiredParametersSet()) {
 
 
     $students = $_POST['students'];
+    $title = $_POST['title'];
     $category = $_POST['category'];
     $date = $_POST['date'];
     $hours = $_POST['hours'];
@@ -20,7 +21,7 @@ if (isRequiredParametersSet()) {
 
 
     // $user = $db->getUserByEmailAndPassword($email, $password);
-    $experience = $db->storeExperience( $category, $date, $hours, $description, $organization, $verified);
+    $experience = $db->storeExperience( $title ,$category, $date, $hours, $description, $organization, $verified);
 
     if ($experience) {
         $response['error'] = FALSE;
@@ -62,6 +63,7 @@ function isRequiredParametersSet()
 {
     if (
         isset( $_POST['students'] ) &&
+        isset( $_POST['title'] ) &&
         isset( $_POST['category'] ) &&
         isset( $_POST['date'] ) &&
         isset( $_POST['hours'] ) &&

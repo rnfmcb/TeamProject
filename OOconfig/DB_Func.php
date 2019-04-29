@@ -28,18 +28,18 @@ class DB_Func
     }
 
 
-    function storeExperience($category, $date, $hours, $description, $organization, $verified)
+    function storeExperience($title,$category, $date, $hours, $description, $organization, $verified)
     {
 
-        $stmt = $this->conn->prepare("INSERT INTO experience ( CATEGORY, DATE, HOURS,
-        DESCRIPTION, ORGANIZATION, VERIFIED) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssisss", $category, $date, $hours, $description, $organization, $verified);
+        $stmt = $this->conn->prepare("INSERT INTO experience ( TITLE, CATEGORY, DATE, HOURS,
+        DESCRIPTION, ORGANIZATION, VERIFIED) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssisss",$title ,$category, $date, $hours, $description, $organization, $verified);
         $result = $stmt->execute();
         $stmt->close();
 
         //check for successful store
         if ($result) {
-            return $this->isSuccessExp($category, $date, $hours, $description, $organization, $verified);
+            return $this->isSuccessExp($title, $category, $date, $hours, $description, $organization, $verified);
         } else {
             return false;
         }
@@ -68,15 +68,15 @@ class DB_Func
      * @param
      * @return mixed
      */
-    public function isSuccessExp($category, $date, $hours, $description, $organization, $verified)
+    public function isSuccessExp($title, $category, $date, $hours, $description, $organization, $verified)
     {
         $expID = "";
 
         //global $experience;
 
-        $stmt = $this->conn->prepare("SELECT EXPID FROM experience WHERE ( CATEGORY = ? AND DATE = ? AND HOURS = ?
+        $stmt = $this->conn->prepare("SELECT EXPID FROM experience WHERE (TITLE = ? AND CATEGORY = ? AND DATE = ? AND HOURS = ?
                                              AND DESCRIPTION = ? AND ORGANIZATION = ? AND VERIFIED = ?) ");
-        $stmt->bind_param("ssisss", $category, $date, $hours, $description, $organization, $verified);
+        $stmt->bind_param("sssisss", $title,$category, $date, $hours, $description, $organization, $verified);
 
         $stmt->execute();
         $stmt->bind_result($expID);
@@ -84,6 +84,8 @@ class DB_Func
         $stmt->fetch();
         //store in array $experience
         $experience['expID'] = $expID;
+        $experience['title']= $title;
+
         $experience['category'] = $category;
         $experience['date'] = $date;
         $experience['hours'] = $hours;
@@ -108,13 +110,14 @@ class DB_Func
         $stmt->bind_param("i", $expID);
 
         $stmt->execute();
-        $stmt->bind_result($expID, $category, $date, $hours, $description, $organization, $verified);
+        $stmt->bind_result($expID, $title, $category, $date, $hours, $description, $organization, $verified);
 
         $stmt->fetch();
 
         //store in array $experience
 
         $experience['expID'] = $expID;
+        $experience['title'] = $title;
         $experience['category'] = $category;
         $experience['date'] = $date;
         $experience['hours'] = $hours;
