@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+	<img alt="UMSL logo" src="umsl_type_red_152r_30g_50b.jpg" width="80" />
 	<h1>Enter an enrichment experience.</h1>
-	<form id="experience_form" method="post" action="">
+	<form id="experience_form" method="post" action="../php/OOconfig/addExperience.php">
 		
         <label>
             Faculty SSOID
@@ -30,6 +31,10 @@
             <label><input name="category" type="radio" value="portfolio">Portfolio Work</label><br>
             <label><input name="category" type="radio" value="collab">Team Project/Collaboration</label><br>
         <label>
+            Title
+            <input name="title" type="text" maxlength="45" required>
+        </label><br>
+		<label>
             Organization
             <input name="organization" type="text" maxlength="45">
         </label><br>
