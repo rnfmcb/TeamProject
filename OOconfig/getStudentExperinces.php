@@ -9,18 +9,27 @@
 require_once 'DB_Func.php';
 $db = new DB_Func();
 
-$response['error'] = true;
+$response['error'] = false;
 
 if (  isRequiredParametersSet() ){
 
     $ssoid = $_POST['ssoid'];
-    $exp_List = $db->getStudentExpIDs($ssoid);
+    $expID_List = $db->getStudentExpIDs($ssoid);
+    $experienceInfoList = array();
+    $numberOfExp = count($expID_List);
 
-    $user = "";// $db->getExperienceInfo( $expID );
-
-
-    if ( $user ){
-
+    foreach ($expID_List as $expID) {
+        $ex = $db->getExperienceInfo($expID);
+        $ex['ssoid'] = $ssoid;
+        array_push($experienceInfoList, $ex);
+    }
+    if ( $numberOfExp ){
+        foreach ($experienceInfoList as $ex){
+            foreach ($ex as $val){
+                echo $val." ";
+            }
+            echo "<br>";
+        }
     }else {
         $response['error'] = TRUE;
         $response['message'] = "Could not retrieve user";

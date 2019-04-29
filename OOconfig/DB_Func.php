@@ -121,6 +121,7 @@ class DB_Func
         $experience['description'] = $description;
         $experience['organization'] = $organization;
         $experience['verified'] = $verified;
+        //echo "$verified". "<br>";
 
         $stmt->close();
 
@@ -150,19 +151,19 @@ class DB_Func
         $stmt->bind_param("s", $ssoid);
         $result = $stmt->execute();
         $stmt->store_result();
-        $numberOfRows = $stmt->num_rows;
+        //  $numberOfRows = $stmt->num_rows;
         $stmt->bind_result($expID, $ssoid);
         $expID_List = array();
         if ($result) {
             // output data of each row
             while($stmt->fetch()) {
-               // array_push($expID_List, $row['EX']);
+                array_push($expID_List, $expID);
                 echo "ssoid: " . $ssoid. " - expID: " . "$expID" . "<br>";
             }
         } else {
             echo "0 results";
         }
-return $expID_List;
+        return $expID_List;
     }
 
     public function isSuccessStuExp($expID, $ssoid)
