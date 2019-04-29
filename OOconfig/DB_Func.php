@@ -144,6 +144,27 @@ class DB_Func
         }
     }
 
+    function getStudentExpIDs($ssoid){
+
+        $stmt = $this->conn->prepare(" SELECT * FROM experience_student WHERE ( STU = ? )");
+        $stmt->bind_param("s", $ssoid);
+        $result = $stmt->execute();
+        $stmt->store_result();
+        $numberOfRows = $stmt->num_rows;
+        $stmt->bind_result($expID, $ssoid);
+        $expID_List = array();
+        if ($result) {
+            // output data of each row
+            while($stmt->fetch()) {
+               // array_push($expID_List, $row['EX']);
+                echo "ssoid: " . $ssoid. " - expID: " . "$expID" . "<br>";
+            }
+        } else {
+            echo "0 results";
+        }
+return $expID_List;
+    }
+
     public function isSuccessStuExp($expID, $ssoid)
     {
         $stmt = $this->conn->prepare(" SELECT * FROM experience_student WHERE ( EX, STU ) VALUE ( ?, ? )");
@@ -162,3 +183,4 @@ class DB_Func
         return $experience_student;
     }
 }
+

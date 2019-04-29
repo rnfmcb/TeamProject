@@ -13,9 +13,13 @@ $response['error'] = true;
 
 if (  isRequiredParametersSet() ){
 
-    $user = $db->getUserByEmailAndPassword( $expID );
+    $ssoid = $_POST['ssoid'];
+    $exp_List = $db->getStudentExpIDs($ssoid);
 
-    if ($user){
+    $user = "";// $db->getExperienceInfo( $expID );
+
+
+    if ( $user ){
 
     }else {
         $response['error'] = TRUE;
