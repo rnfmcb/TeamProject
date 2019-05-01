@@ -20,7 +20,7 @@ if (isRequiredParametersSet()) {
     $hours = $_POST['hours'];
 
 
-    $experience = $db->storeExperience( $title ,$category, $date, $hours, $description, $organization, $verified);
+    $experience = $db->storeExperience( $title, $category, $date, $hours, $description, $organization, $verified);
 
     if ($experience) {
         $response['error'] = FALSE;
@@ -49,8 +49,8 @@ function parseStudents( $students )
     $studentList = array();
     $tok = strtok($students, " ,;\n\t");
 	while ($tok !== false){
-		array_push($studentList, $tok);
-		$tok = strtok($students, " ,;\n\t");
+		$studentList[] = $tok;
+		$tok = strtok(" ,;\n\t");
 	}
     return $studentList;
 }

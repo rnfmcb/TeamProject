@@ -28,12 +28,12 @@ class DB_Func
     }
 
 
-    function storeExperience($title,$category, $date, $hours, $description, $organization, $verified)
+    function storeExperience($title, $category, $date, $hours, $description, $organization, $verified)
     {
-
+		
         $stmt = $this->conn->prepare("INSERT INTO experience ( TITLE, CATEGORY, DATE, HOURS,
         DESCRIPTION, ORGANIZATION, VERIFIED) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssisss",$title ,$category, $date, $hours, $description, $organization, $verified);
+        $stmt->bind_param("sssisss", $title, $category, $date, $hours, $description, $organization, $verified);
         $result = $stmt->execute();
         $stmt->close();
 
@@ -74,18 +74,17 @@ class DB_Func
 
         //global $experience;
 
-        $stmt = $this->conn->prepare("SELECT EXPID FROM experience WHERE (TITLE = ? AND CATEGORY = ? AND DATE = ? AND HOURS = ?
+        $stmt = $this->conn->prepare("SELECT EXPID FROM experience WHERE ( TITLE = ? AND CATEGORY = ? AND DATE = ? AND HOURS = ?
                                              AND DESCRIPTION = ? AND ORGANIZATION = ? AND VERIFIED = ?) ");
-        $stmt->bind_param("sssisss", $title,$category, $date, $hours, $description, $organization, $verified);
+        $stmt->bind_param("sssisss", $title, $category, $date, $hours, $description, $organization, $verified);
 
         $stmt->execute();
         $stmt->bind_result($expID);
 
         $stmt->fetch();
         //store in array $experience
+		$experience['title'] = $title;
         $experience['expID'] = $expID;
-        $experience['title']= $title;
-
         $experience['category'] = $category;
         $experience['date'] = $date;
         $experience['hours'] = $hours;
@@ -110,21 +109,19 @@ class DB_Func
         $stmt->bind_param("i", $expID);
 
         $stmt->execute();
-        $stmt->bind_result($expID, $title, $category, $date, $hours, $description, $organization, $verified);
+        $stmt->bind_result($expID, $category, $date, $hours, $description, $organization, $verified);
 
         $stmt->fetch();
 
         //store in array $experience
 
         $experience['expID'] = $expID;
-        $experience['title'] = $title;
         $experience['category'] = $category;
         $experience['date'] = $date;
         $experience['hours'] = $hours;
         $experience['description'] = $description;
         $experience['organization'] = $organization;
         $experience['verified'] = $verified;
-        //echo "$verified". "<br>";
 
         $stmt->close();
 
@@ -148,27 +145,6 @@ class DB_Func
         }
     }
 
-    function getStudentExpIDs($ssoid){
-
-        $stmt = $this->conn->prepare(" SELECT * FROM experience_student WHERE ( STU = ? )");
-        $stmt->bind_param("s", $ssoid);
-        $result = $stmt->execute();
-        $stmt->store_result();
-        //  $numberOfRows = $stmt->num_rows;
-        $stmt->bind_result($expID, $ssoid);
-        $expID_List = array();
-        if ($result) {
-            // output data of each row
-            while($stmt->fetch()) {
-                array_push($expID_List, $expID);
-                echo "ssoid: " . $ssoid. " - expID: " . "$expID" . "<br>";
-            }
-        } else {
-            echo "0 results";
-        }
-        return $expID_List;
-    }
-
     public function isSuccessStuExp($expID, $ssoid)
     {
         $stmt = $this->conn->prepare(" SELECT * FROM experience_student WHERE ( EX, STU ) VALUE ( ?, ? )");
@@ -187,4 +163,3 @@ class DB_Func
         return $experience_student;
     }
 }
-
