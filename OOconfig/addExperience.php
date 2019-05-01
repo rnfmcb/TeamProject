@@ -32,7 +32,7 @@ if (isRequiredParametersSet()) {
 
     $studentList = parseStudents($students);
     $num = count($studentList);
-    echo $experience['expID'];
+
     foreach ($studentList as $student ){
         $db->storeStudentExperience( $experience['expID'], $student );
     }
@@ -73,6 +73,3 @@ function isRequiredParametersSet()
     else
         return false;
 }
-
-
-?>

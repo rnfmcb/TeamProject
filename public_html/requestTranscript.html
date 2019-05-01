@@ -8,10 +8,10 @@
 </head>
 <body>
     <h1>Request your Enrichment Experiences Transcript.</h1>
-	<form id="transcript_req" method="post" action="genPDF.php">
+	<form id="transcript_req" method="post" action="../OOconfig/getStudentExperiences.php">
         <label>
-            SSOID
-            <input name="teacher" type="text" maxlength="10" required>
+            SSOID:
+            <input name="ssoid" type="text" maxlength="10" required>
         </label><br>
         <input type="submit" value="Request Transcript">
     </form>    

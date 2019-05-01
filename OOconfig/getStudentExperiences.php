@@ -25,23 +25,25 @@ if (  isRequiredParametersSet() ){
     }
     if ( $numberOfExp ){
        $db->makePDF($experienceInfoList);
+
     }else {
         $response['error'] = TRUE;
         $response['message'] = "Could not retrieve user experiences";
     }
    // echo json_encode($response);
 
+}else {
+    $response['message'] = "parameters not set";
+    echo json_encode($response);
+
 }
 function isRequiredParametersSet()
 {
-    if (
-    isset( $_POST['ssoid'] )
-//   && isset( $_POST['ssoid'] )
-    )
+    if ( isset( $_POST['ssoid'] ) )
     {
         return true;
     }
     else
         return false;
 }
-?>
+

@@ -132,12 +132,10 @@ class DB_Func
 
     function storeStudentExperience($expID, $ssoid)
     {
-
         $stmt = $this->conn->prepare("INSERT INTO experience_student ( EX, STU ) VALUES ( ?, ? )");
         $stmt->bind_param("is", $expID, $ssoid);
         $result = $stmt->execute();
         $stmt->close();
-        echo "\n this\n";
 
         //check for successful store
         if ($result) {
@@ -200,8 +198,9 @@ class DB_Func
 //Loop prints every entry in the array
 //Text is tentatively set to wrap
 //If it doesn't work, FPDF's documentation will help
+        $exCount = count($experienceList);
         foreach ($experienceList as $ex)
-            $pdf->MultiCell(0,0,$ex['date'] . ' | ' . $ex['title'] . ' | ' . $ex['description'] . ' | ' . $ex['category']. ' | ' .$ex['hours'], 0 , 1);
+            $pdf->MultiCell(0,$exCount,$ex['date'] . ' | ' . $ex['title'] . ' | ' . $ex['description'] . ' | ' . $ex['category']. ' | ' .$ex['hours'], 0 , 1);
         $pdf->Output();
     }
 }
