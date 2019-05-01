@@ -10,17 +10,16 @@ $response = array("error" => FALSE);
 if (isRequiredParametersSet()) {
 
 
+    $verified = $_POST['teacher'];
     $students = $_POST['students'];
-    $title = $_POST['title'];
     $category = $_POST['category'];
+    $title = $_POST['title'];
+    $organization = $_POST['organization'];
+    $description = $_POST['description'];
     $date = $_POST['date'];
     $hours = $_POST['hours'];
-    $description = $_POST['description'];
-    $organization = $_POST['organization'];
-    $verified = $_POST['verified'];
 
 
-    // $user = $db->getUserByEmailAndPassword($email, $password);
     $experience = $db->storeExperience( $title ,$category, $date, $hours, $description, $organization, $verified);
 
     if ($experience) {
@@ -43,19 +42,16 @@ if (isRequiredParametersSet()) {
     $response['message'] = "parameters not set";
     echo json_encode($response);
 
-
-
-
-
 }
-////mock list - need add function
-function parseStudents( $students ){
+
+function parseStudents( $students )
+{
     $studentList = array();
-    $val1 = 'dmld54';
-    $val2  = 'tjs27f';
-    $val3 = 'tsp4b';
-    $val4 = 'rnfmcb';
-    array_push($studentList, $val1, $val2, $val3, $val4  );
+    $tok = strtok($students, " ,;\n\t");
+	while ($tok !== false){
+		array_push($studentList, $tok);
+		$tok = strtok($students, " ,;\n\t");
+	}
     return $studentList;
 }
 
@@ -68,13 +64,12 @@ function isRequiredParametersSet()
         isset( $_POST['date'] ) &&
         isset( $_POST['hours'] ) &&
         isset( $_POST['description'] ) &&
-        isset( $_POST["organization"] )&&
-        isset( $_POST['verified'] )
+        isset( $_POST['organization'] )&&
+        isset( $_POST['teacher'] )
     )
     {
         return true;
     }
-
     else
         return false;
 }
