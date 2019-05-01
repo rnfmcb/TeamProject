@@ -27,7 +27,6 @@ class DB_Func
         return $data;
     }
 
-
     function storeExperience($title,$category, $date, $hours, $description, $organization, $verified)
     {
 
@@ -161,7 +160,7 @@ class DB_Func
             // output data of each row
             while($stmt->fetch()) {
                 array_push($expID_List, $expID);
-                echo "ssoid: " . $ssoid. " - expID: " . "$expID" . "<br>";
+              //  echo "ssoid: " . $ssoid. " - expID: " . "$expID" . "<br>";
             }
         } else {
             echo "0 results";
@@ -185,6 +184,25 @@ class DB_Func
         $stmt->close();
 
         return $experience_student;
+    }
+
+    public function makePDF($experienceList ){
+        require_once 'genPDF.php';
+//creates printable array filled with empty strings, filled in later loop
+        $stdName= "bob MULLER";
+        $stdDegree = "pee tape";
+
+        $pdf = new PDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Courier','',12);
+        $pdf->Cell(0,10, 'Name: ' . $stdName,0,1);
+        $pdf->Cell(0,10, 'Degree: ' . $stdDegree,0,1);
+//Loop prints every entry in the array
+//Text is tentatively set to wrap
+//If it doesn't work, FPDF's documentation will help
+        foreach ($experienceList as $ex)
+            $pdf->MultiCell(0,0,$ex['date'] . ' | ' . $ex['title'] . ' | ' . $ex['description'] . ' | ' . $ex['category']. ' | ' .$ex['hours'], 0 , 1);
+        $pdf->Output();
     }
 }
 

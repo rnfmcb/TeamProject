@@ -55,3 +55,4 @@ class PDF extends FPDF
 //for($i=0; $i< $DASize; $i++)
 //    $pdf->MultiCell(0,10, $printingArray[$i][0] .' | ' .$printingArray[$i][1] .' | ' .$printingArray[$i][2] .' | ' .$printingArray[$i][3] .' | ' .$printingArray[$i][4],0,1);
 //$pdf->Output();
+//?>

@@ -24,20 +24,14 @@ if (  isRequiredParametersSet() ){
         array_push($experienceInfoList, $ex);
     }
     if ( $numberOfExp ){
-        foreach ($experienceInfoList as $ex){
-            foreach ($ex as $val){
-                echo $val." ";
-            }
-            echo "<br>";
-        }
+       $db->makePDF($experienceInfoList);
     }else {
         $response['error'] = TRUE;
-        $response['message'] = "Could not retrieve user";
+        $response['message'] = "Could not retrieve user experiences";
     }
-    echo json_encode($response);
+   // echo json_encode($response);
 
 }
-
 function isRequiredParametersSet()
 {
     if (
@@ -50,5 +44,4 @@ function isRequiredParametersSet()
     else
         return false;
 }
-
 ?>
