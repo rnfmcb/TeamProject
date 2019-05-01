@@ -130,6 +130,26 @@ class DB_Func
         return $experience;
     }
 
+    public function getNameDegree($ssoid){
+        $stmt = $this->conn->prepare(" SELECT * FROM student WHERE ( SSOID = ? )");
+        $stmt->bind_param("s", $ssoid);
+        $result = $stmt->execute();
+        //  $numberOfRows = $stmt->num_rows;
+        $stmt->bind_result( $ssoid, $lastName, $firstName, $email, $degree);
+        $stmt->fetch();
+
+        $student['firstName'] =$firstName;
+        $student['lastName'] = $lastName;
+        $student['email']= $email;
+        $student['degree'] = $degree;
+
+        if ($result) {
+            return $student;
+        } else {
+            echo "ssoid does not match";
+        }
+    }
+
     function storeStudentExperience($expID, $ssoid)
     {
         $stmt = $this->conn->prepare("INSERT INTO experience_student ( EX, STU ) VALUES ( ?, ? )");
@@ -184,17 +204,17 @@ class DB_Func
         return $experience_student;
     }
 
-    public function makePDF($experienceList ){
+    public function makePDF($experienceList , $student){
         require_once 'genPDF.php';
 //creates printable array filled with empty strings, filled in later loop
-        $stdName= "bob MULLER";
-        $stdDegree = "pee tape";
+
+        $name = $student['firstName'] . ' ' . $student['lastName'];
 
         $pdf = new PDF();
         $pdf->AddPage();
         $pdf->SetFont('Courier','',12);
-        $pdf->Cell(0,10, 'Name: ' . $stdName,0,1);
-        $pdf->Cell(0,10, 'Degree: ' . $stdDegree,0,1);
+        $pdf->Cell(0,10, 'Name: ' . $name,0,1);
+        $pdf->Cell(0,10, 'Degree: ' . $student['degree'],0,1);
 //Loop prints every entry in the array
 //Text is tentatively set to wrap
 //If it doesn't work, FPDF's documentation will help

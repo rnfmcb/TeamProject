@@ -18,13 +18,15 @@ if (  isRequiredParametersSet() ){
     $experienceInfoList = array();
     $numberOfExp = count($expID_List);
 
+    $student = $db->getNameDegree($ssoid);
+
     foreach ($expID_List as $expID) {
         $ex = $db->getExperienceInfo($expID);
         $ex['ssoid'] = $ssoid;
         array_push($experienceInfoList, $ex);
     }
     if ( $numberOfExp ){
-       $db->makePDF($experienceInfoList);
+       $db->makePDF($experienceInfoList, $student);
 
     }else {
         $response['error'] = TRUE;
