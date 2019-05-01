@@ -9,7 +9,7 @@
 <body>
 	<img alt="UMSL logo" src="umsl_type_red_152r_30g_50b.jpg" width="80" />
 	<h1>Enter an enrichment experience.</h1>
-	<form id="experience_form" method="post" action="../php/OOconfig/addExperience.php">
+	<form name="experience_form" id="experience_form" method="post" action="./OOconfig/addExperience.php">
 		
         <label>
             Faculty SSOID
@@ -17,7 +17,7 @@
         </label><br>
         <label>
             Student SSOIDs:<br>
-            <textarea name="students" form="experience_form" cols="60" rows="5"></textarea>
+            <textarea name="students" form="experience_form" method="post" cols="60" rows="5"></textarea>
         </label><br>
         <label>Experience Category</label><br>   
             <label><input name="category" type="radio" value="research" checked>Research</label><br>
@@ -40,7 +40,7 @@
         </label><br>
         <label>
             Description:<br>
-            <textarea name="description" form="experience_form" cols="60" rows="5" maxlength="1000"></textarea>
+            <textarea name="description" form="experience_form" method="post" cols="60" rows="5" maxlength="1000"></textarea>
         </label><br>
 		<label>
             Date
