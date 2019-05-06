@@ -26,7 +26,10 @@ class DB_Func
         $data = htmlspecialchars($data);
         return $data;
     }
-
+    /**
+     * @param 7
+     * @return #isSucces
+     */
     function storeExperience($title,$category, $date, $hours, $description, $organization, $verified)
     {
 
@@ -44,10 +47,7 @@ class DB_Func
         }
     }
 
-    /**
-     * @param $email
-     * @return #of matches
-     */
+
     public function isUserInfoUnique($e)
     {
         //check email
@@ -98,7 +98,7 @@ class DB_Func
     }
 
     /**
-     * @param $email
+     * @param $expID
      * @return mixed
      */
     public function getExperienceInfo($expID)
@@ -123,12 +123,17 @@ class DB_Func
         $experience['description'] = $description;
         $experience['organization'] = $organization;
         $experience['verified'] = $verified;
-        //echo "$verified". "<br>";
 
         $stmt->close();
 
         return $experience;
     }
+    /**
+     * @param $ssoid
+     * @return student info
+     *
+     */
+
 
     public function getNameDegree($ssoid){
         $stmt = $this->conn->prepare(" SELECT * FROM student WHERE ( SSOID = ? )");
@@ -150,6 +155,12 @@ class DB_Func
         }
     }
 
+    /**
+     * @param $expID,ssoid
+     * @return bool
+     *
+     * stores one ssoid and experience
+     */
     function storeStudentExperience($expID, $ssoid)
     {
         $stmt = $this->conn->prepare("INSERT INTO experience_student ( EX, STU ) VALUES ( ?, ? )");
@@ -164,6 +175,10 @@ class DB_Func
             return false;
         }
     }
+    /**
+     * @param $ssoid
+     * @return array of expIDs
+     **/
 
     function getStudentExpIDs($ssoid){
 
@@ -185,6 +200,11 @@ class DB_Func
         }
         return $expID_List;
     }
+    /**
+     * @param $expID,ssoid
+     * @return mixed
+
+     */
 
     public function isSuccessStuExp($expID, $ssoid)
     {
@@ -203,6 +223,12 @@ class DB_Func
 
         return $experience_student;
     }
+
+    /**
+     * @param $expID list ,student name and degree
+     * @return PDF
+     *
+     */
 
     public function makePDF($experienceList , $student){
         require_once 'genPDF.php';
