@@ -1,5 +1,5 @@
 # Team Extra 
-Team Project for Software Professions Spring Semmester of 2019 at UMSL University 
+Team Project for Software Professions Spring Semester of 2019 at UMSL University 
 
 Team members: Rachel Festervand, Mitch Lindsey, Tim Schisler, Tyler Sullivan 
 
